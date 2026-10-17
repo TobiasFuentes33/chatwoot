@@ -1,0 +1,53 @@
+{
+ "chatwoot": {
+  "FRONTEND_URL": {
+   "value": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+   "description": "Public URL of this deployment. Auto-filled from the Railway domain; used for links, OAuth callbacks and the widget."
+  },
+  "POSTGRES_HOST": {
+   "value": "${{postgres.RAILWAY_PRIVATE_DOMAIN}}",
+   "description": "PostgreSQL host. Auto-wired over the private network."
+  },
+  "POSTGRES_PASSWORD": {
+   "value": "${{postgres.POSTGRES_PASSWORD}}",
+   "description": "PostgreSQL password. Auto-wired from the companion."
+  },
+  "REDIS_URL": {
+   "value": "redis://${{redis.RAILWAY_PRIVATE_DOMAIN}}:6379",
+   "description": "Redis URL. Auto-wired over the private network (no password; private network only)."
+  },
+  "SECRET_KEY_BASE": {
+   "value": "${{secret(64)}}",
+   "description": "Random secret for Rails session/cookie signing. Auto-generated; MUST match the worker's value (wired via reference)."
+  }
+ },
+ "chatwoot-worker": {
+  "FRONTEND_URL": {
+   "value": "https://${{chatwoot.RAILWAY_PUBLIC_DOMAIN}}",
+   "description": "Public URL of the web service (used for links in worker-sent mail). Auto-wired."
+  },
+  "POSTGRES_HOST": {
+   "value": "${{postgres.RAILWAY_PRIVATE_DOMAIN}}",
+   "description": "PostgreSQL host. Auto-wired over the private network."
+  },
+  "POSTGRES_PASSWORD": {
+   "value": "${{postgres.POSTGRES_PASSWORD}}",
+   "description": "PostgreSQL password. Auto-wired from the companion."
+  },
+  "REDIS_URL": {
+   "value": "redis://${{redis.RAILWAY_PRIVATE_DOMAIN}}:6379",
+   "description": "Redis URL (Sidekiq queues). Auto-wired over the private network."
+  },
+  "SECRET_KEY_BASE": {
+   "value": "${{chatwoot.SECRET_KEY_BASE}}",
+   "description": "Must equal the web service's SECRET_KEY_BASE \u2014 wired by reference so both generate the same value."
+  }
+ },
+ "postgres": {
+  "POSTGRES_PASSWORD": {
+   "value": "${{secret(32)}}",
+   "description": "Auto-generated database password."
+  }
+ },
+ "redis": {}
+}
