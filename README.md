@@ -1,6 +1,6 @@
 # Chatwoot
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/chatwoot?utm_campaign=chatwoot)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/chatwoot-4?utm_campaign=chatwoot)
 
 Chatwoot is the open-source customer support platform — live chat, a shared omnichannel inbox (email, website widget, WhatsApp, Telegram, Twitter/X, and more), help center, and automations. The Intercom/Zendesk alternative you host yourself, with unlimited agents and conversations on the MIT-licensed Community Edition.
 

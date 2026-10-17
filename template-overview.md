@@ -1,4 +1,4 @@
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/chatwoot?utm_campaign=chatwoot)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/chatwoot-4?utm_campaign=chatwoot)
 
 # Deploy and Host
 
