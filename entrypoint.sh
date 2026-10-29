@@ -38,5 +38,27 @@ echo "[entrypoint] running db:chatwoot_prepare..."
 bundle exec rails db:chatwoot_prepare
 
 # No -p flag: Rails::Server reads the port from ENV['PORT'], which Railway injects.
-echo "[entrypoint] starting rails server (PORT=${PORT:-3000})..."
-exec bundle exec rails s -b 0.0.0.0
+echo "[entrypoint] starting Sidekiq..."
+bundle exec sidekiq -C config/sidekiq.yml &
+SIDEKIQ_PID=$!
+
+echo "[entrypoint] starting Rails..."
+bundle exec rails s -b 0.0.0.0 -p "${PORT:-8080}" &
+WEB_PID=$!
+
+shutdown() {
+  trap - TERM INT
+  kill -TERM "$WEB_PID" "$SIDEKIQ_PID" 2>/dev/null || true
+  wait "$WEB_PID" 2>/dev/null || true
+  wait "$SIDEKIQ_PID" 2>/dev/null || true
+}
+
+trap 'shutdown; exit 0' TERM INT
+
+while kill -0 "$WEB_PID" 2>/dev/null &&
+      kill -0 "$SIDEKIQ_PID" 2>/dev/null; do
+  sleep 2
+done
+
+shutdown
+exit 1
